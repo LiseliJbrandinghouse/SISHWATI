@@ -1,0 +1,36 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Arrivals</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <!-- Add your navigation code here -->
+    </nav>
+
+    <section class="new-arrivals">
+      <h2>New Arrivals</h2>
+      <p class="section-description">
+        Sishwati Marie has a stunning collection of canvas tote bags, leather
+        bags, and faux leather accessories that exude elegance and style.
+      </p>
+      <div class="grid-container">
+        {% for product in new_arrivals %}
+        <div class="grid-item">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+          <div class="overlay">
+            <p class="shop-link">SHOP SM TOTES</p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <p class="made-to-order">*all products are currently made to order</p>
+    </section>
+
+  
+  </body>
+</html>

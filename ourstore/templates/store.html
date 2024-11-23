@@ -1,0 +1,325 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Store</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      /* Basic resets */
+      /* Reset margins, padding, and box-sizing */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      /* Header and Navigation */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .logo h1 {
+        font-size: 32px;
+        font-weight: 900;
+      }
+
+      nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+
+      nav ul li a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #333;
+        padding: 5px 10px;
+        border-bottom: 2px solid transparent;
+        transition: all 0.3s;
+      }
+
+      nav ul li a.active,
+      nav ul li a:hover {
+        border-bottom: 2px solid #000;
+        color: #000;
+      }
+
+      /* Products Section */
+      .products {
+        padding: 50px 20px;
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr); /* Three columns */
+        gap: 50px; /* Control spacing between items */
+      }
+
+      .product-item {
+        text-align: center;
+        margin-top: 0; /* Remove the large top margin */
+        padding: 0;
+        border: none;
+        background: none;
+        box-shadow: none;
+      }
+
+      .product-item img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        max-width: 100%;
+      }
+
+      .product-item h2 {
+        font-size: 16px;
+        font-weight: normal;
+        margin: 10px 0; /* Space between name and price */
+      }
+
+      .product-item p {
+        font-size: 18px;
+        font-weight: bold;
+        margin: 10px 0 20px; /* Spacing between price and button */
+        color: #333;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .container {
+          grid-template-columns: repeat(2, 1fr); /* Two columns on tablets */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          grid-template-columns: 1fr; /* Single column on mobile */
+        }
+
+        .product-item img {
+          max-width: 100%;
+        }
+      }
+
+      .product-image-container {
+        position: relative;
+        width: 100%;
+      }
+
+      .sold-out-banner {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(
+          255,
+          0,
+          0,
+          0.8
+        ); /* Red background with transparency */
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        z-index: 10;
+        border-radius: 5px;
+      }
+
+      .product-main-image,
+      .product-hover-image {
+        width: 100%;
+        transition: opacity 0.5s ease;
+         border-radius: 10px 10px 0 0; /* Top corners rounded, bottom corners flat */
+    overflow: hidden; /* Ensure the image fits properly inside the border */
+    display: block;
+    width: 100%; /* Adjust width as per your container */
+      }
+
+      .product-hover-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+
+      /* Hover effect only for products with hover image and not sold out */
+      .product-item.has-hover-image
+        .product-image-container:hover
+        .product-hover-image {
+        opacity: 1;
+      }
+
+      .product-item.has-hover-image
+        .product-image-container:hover
+        .product-main-image {
+        opacity: 0;
+      }
+
+      /* Grayscale for sold-out items */
+      .product-item.sold-out .product-main-image {
+        filter: grayscale(100%);
+      }
+
+      .product-item.sold-out .product-hover-image {
+        display: none; /* No hover effect for sold-out items */
+      }
+
+      .new-collection-banner {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(
+          0,
+          128,
+          0,
+          0.8
+        ); /* Green background with transparency */
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        z-index: 10;
+        border-radius: 5px;
+      }
+
+      .sold-out-banner {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background-color: rgba(
+          255,
+          0,
+          0,
+          0.8
+        ); /* Red background with transparency */
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        z-index: 10;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">
+        <h1>Store Name</h1>
+      </div>
+      <nav>
+        <ul>
+          <li>
+            <a
+              href="?category=All"
+              class="{% if category == 'all' %}active{% endif %}"
+              >All</a
+            >
+          </li>
+           <li><a href="?category=new-collection" {% if category == 'new-collection' %}class="active"{% endif %}>New Collection</a></li>
+          
+
+             <li><a href="?category=new-launch" {% if category == 'new-launch' %}class="active"{% endif %}>Launch</a></li>
+            <li><a
+              href="?category=new arrivals"
+              class="{% if category == 'new arrivals' %}active{% endif %}"
+              >New Arrivals</a
+            >
+          </li>
+          <li>
+            <a
+              href="?category=totes"
+              class="{% if category == 'totes' %}active{% endif %}"
+              >Totes</a
+            >
+          </li>
+          <li>
+            <a
+              href="?category=handbags"
+              class="{% if category == 'handbags' %}active{% endif %}"
+              >Handbags</a
+            >
+          </li>
+          {% if not is_cart_page %}
+          <!-- Move cart icon inside the <ul> list -->
+          <li>
+            <a href="{% url 'cart' %}" class="cart-icon">
+              <i class="fas fa-shopping-cart"></i>
+              <span class="cart-count" id="cart-count"
+                >{{ request.session.cart|length|default:0 }}</span
+              >
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
+
+    <section class="products">
+      <div class="store-description">
+        <p>
+          Welcome to our store! We offer a wide variety of high-quality products
+          that you'll love. <br />
+          Browse through our selection and find the perfect item for you!
+        </p>
+      </div>
+      <div class="container">
+        {% for product in products %}
+      <div class="product-item {% if product.is_out_of_stock %}sold-out{% elif product.hover_image %}has-hover-image{% endif %}">
+  <div class="product-image-container">
+    <img
+      src="{{ product.image.url }}"
+      alt="{{ product.name }}"
+      class="product-main-image"
+    />
+
+    {% if product.hover_image %}
+    <img
+      src="{{ product.hover_image.url }}"
+      alt="{{ product.name }}"
+      class="product-hover-image"
+    />
+    {% endif %}
+
+    <!-- Display "Sold Out" banner if product is out of stock -->
+    {% if product.is_out_of_stock %}
+    <div class="sold-out-banner">Sold Out</div>
+    {% endif %}
+
+    <!-- Display "New Collection" banner if product is part of the new collection -->
+    {% if product.is_new_collection %}
+    <div class="new-collection-banner">New Collection</div>
+    {% endif %}
+
+    <!-- Display "New Launch" banner if product is recently launched -->
+    {% if product.is_new_launch and product.is_still_new %}
+    <div class="new-launch-banner">New Launch</div>
+    {% endif %}
+
+  </div>
+  <h2>{{ product.name }}</h2>
+  <p>${{ product.price }}</p>
+
+  <!-- View More Button -->
+  <a href="{% url 'product_detail' product.id %}" class="add-to-cart-btn">
+    View More
+  </a>
+</div>
+        {% endfor %}
+      </div>
+    </section>
+  </body>
+</html>

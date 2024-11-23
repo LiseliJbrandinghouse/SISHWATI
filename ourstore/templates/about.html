@@ -1,0 +1,122 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sishwati Marie</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+  </head>
+  <body>
+    <!-- Header Section -->
+    <div class="header">
+      <img src="logo.png" alt="Logo" />
+      <!-- Replace with your logo URL -->
+      <h1>SISHWATI MARIE</h1>
+      <div class="divider"></div>
+    </div>
+
+    <!-- About Section -->
+    <section class="about-section">
+      <div class="about-content">
+        <img src="{% static 'img/Blackbag.jpg' %}" alt="Product Image" />
+        <!-- Replace with the actual image URL -->
+        <div class="about-text">
+          <h2>About Sishwati Marie</h2>
+          <p>
+            Sishwati Marie is a brand that focuses on creating products such as
+            leather, canvas, assorted handbags, clothing, and accessories. We
+            aim to produce timeless quality products. Our pieces are handmade
+            and sketched with unique designs by Founder, Sepo Sishwati. When you
+            own a piece of Sishwati Marie, you not only own a functional piece
+            of art but you also hold a piece of her story.
+          </p>
+          <a href="{% url 'store' %}" class="button">Visit Store</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- The meaning behind the name Section -->
+    <section class="about-section">
+      <div class="about-text">
+        <h2>The meaning behind the name Sishwati Marie</h2>
+        <p>
+          Introducing Sishwati, a brand inspired by the strong women in my life.
+          Named after my grandmother, a talented seamstress and pattern maker.
+          Her name ‘Sishwati’, originating from the Lozi-speaking people of
+          Barotseland in Zambia, means sweet like sugar cane. My late mother
+          whose name was Mareba or sometimes called Maria, was a passionate
+          journalist who loved playing with style and had a real love for
+          clothes.
+        </p>
+        <p>
+          After losing my father, our lives changed drastically. My mother, a
+          young widow, couldn’t afford much. We wore second-hand clothes and
+          switched schools. Despite the challenges, my love for art and fashion
+          was born.
+        </p>
+        <p>
+          Naming the brand after these powerful women only made sense and I had
+          the privilege of being a part of their bloodline.
+        </p>
+      </div>
+    </section>
+
+    <footer></footer>
+  <div class="footer-top">
+    <h2>Stay Connected to us!</h2>
+    <div class="social-icons">
+      <a href="#"><img src="{% static 'img/whatsapp.jpg' %}" alt="WhatsApp" /></a>
+      <a href="#"><img src="{% static 'img/tikto.jpg' %}" alt="TikTok" /></a>
+      <a href="#"><img src="{% static 'img/instagram.jpg'%}" alt="Instagram" /></a>
+      <a href="#"><img src="{% static 'img/facebook.jpg' %}" alt="Facebook" /></a>
+    </div>
+    <div class="inquiries">
+      <div class="shop-inquiries">
+        <h4>Shop inquiries</h4>
+        <p>shop@sishwatimarie.com</p>
+      </div>
+      <div class="general-inquiries">
+        <h4>General inquiries</h4>
+        <p>hello@sishwatimarie.com</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="footer-bottom">
+    <div class="footer-links">
+      <ul>
+        <li><a href="{% url 'about' %}">About Sishwati Marie <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Privacy Policy <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Refund Policy <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Shipping Policy <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Terms of Service <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Contact Us <span class="arrow-icon">↗</span></a></li>
+      </ul>
+      <ul>
+        <li><a href="#">New Arrivals<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Tote Bags<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Hand Bags<span class="arrow-icon">↗</span></a></li>
+      </ul>
+      <ul>
+        <li><a href="#">SM WhatsApp<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">SM Instagram<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">SM TikTok<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">SM Facebook<span class="arrow-icon">↗</span></a></li>
+      </ul>
+    </div>
+
+    <div class="footer-logo">
+      <img src="sm-logo.png" alt="SM Logo" />
+    </div>
+  </div>
+</footer>
+  </body>
+</html>

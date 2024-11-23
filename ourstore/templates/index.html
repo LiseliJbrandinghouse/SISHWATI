@@ -1,0 +1,304 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Online Store</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link href="https://fonts.googleapis.com/css2?family=Muli:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+      font-family: 'Muli', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1,
+h2 {
+  font-weight: 1000; /* Extra bold */
+}
+
+/* Section Container */
+.products-section {
+  text-align: center;
+  padding: 20px;
+}
+
+/* Header Text Styling */
+.products-header p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* Products Grid */
+.products-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Individual Product Item */
+.product-item {
+  position: relative;
+  width: 300px;
+  height: 400px;
+  overflow: hidden;
+}
+
+/* Product Images */
+.product-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Button Overlay */
+.product-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+/* Footer Note */
+.products-footer p {
+  font-size: 14px;
+  color: #666;
+  margin-top: 30px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .products-grid {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .product-item {
+    width: 90%;
+    height: auto;
+  }
+
+  .products-header p {
+    font-size: 16px;
+  }
+
+  .products-footer p {
+    font-size: 12px;
+  }
+}
+
+.custom-border {
+    border-radius: 10px 10px 0 0; /* Top corners rounded, bottom corners flat */
+    overflow: hidden; /* Ensure the image fits properly inside the border */
+    display: block;
+    width: 100%; /* Adjust width as per your container */
+}
+
+
+.inquiries {
+    display: flex;
+    
+}
+
+.shop-inquiries, .general-inquiries {
+    text-align: center; /* Centers the text within each section */
+}
+
+.shop-inquiries h4, .general-inquiries h4 {
+    margin-bottom: 10px; /* Add some space between the heading and the email */
+}
+
+.shop-inquiries p, .general-inquiries p {
+    margin: 0; /* Remove default margin from paragraphs */
+}
+    </style>
+  </head>
+  <body>
+   <nav class="navbar">
+  <!-- Hamburger icon for mobile -->
+  <div class="hamburger" id="hamburger">
+    &#9776; <!-- Unicode for the hamburger icon -->
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="{% url 'about' %}">About</a></li>
+       <li><a href="{% url 'store' %}?category=new arrivals">New Arrivals</a></li>
+    <li class="logo">
+      <a href="#"><img src="{% static 'img/logo.png' %}" alt="Logo" /></a>
+    </li>
+     <li><a href="{% url 'store' %}?category=totes">Totes</a></li>
+      <li><a href="{% url 'store' %}?category=handbags">Handbags</a></li>
+  
+  </ul>
+</nav>
+
+    <section class="hero-section">
+      <video autoplay muted loop class="hero-video">
+        <source src="{% static 'video/smp.mp4' %}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="shop-button">
+        <a href="{% url 'store' %}?category=handbags">SHOP SM HANDBAGS</a>
+      </div>
+    </section>
+
+    <section class="new-arrivals">
+      <h2>New Arrivals</h2>
+      <p class="section-description">
+        Sishwati Marie has a stunning collection of canvas tote bags, leather
+        bags, and faux leather accessories that exude elegance and style.
+      </p>
+      <div class="grid-container">
+        {% for product in new_arrivals %}
+        <div class="grid-item">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}" />
+         
+            <a href="{% url 'store' %}?category=totes" class="buttons">SHOP SM TOTES</a>
+          
+        </div>
+        {% endfor %}
+      </div>
+      <p class="made-to-order">*all products are currently made to order</p>
+    </section>
+
+   <div class="section">
+  <div class="text">
+    <p>
+      Whether you're running errands or attending a special event, Sishwati
+      Marie has the perfect accessory to complement your look.
+    </p>
+    <a href="{% url 'store' %}" class="button">VISIT STORE</a>
+  </div>
+  <div class="image">
+    <img src="{% static 'img/blackbag.jpg' %}" alt="Handbag" />
+  </div>
+</div>
+
+ <div class="products-section">
+  <!-- Header Text -->
+  <div class="products-header">
+    <p>
+      Sishwati Marie has a stunning collection of canvas tote bags, leather bags,
+      and faux leather accessories that exude elegance and style.
+    </p>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="products-grid">
+    <div class="product-item">
+      <img src="{% static 'img/tote1.jpg' %}" alt="Product 1" class="custom-border" />
+    </div>
+
+    <div class="product-item">
+      <img src="{% static 'img/tote2.jpg' %}" alt="Product 2" class="custom-border" />
+      <a href="{% url 'store' %}?category=totes" class="product-button">SHOP SM TOTES</a>
+    </div>
+
+    <div class="product-item">
+      <img src="{% static 'img/tote3.jpg' %}" alt="Product 3" class="custom-border" />
+    </div>
+</div>
+
+<!-- Footer Note -->
+<div class="products-footer">
+    <p>*all products are currently made to order</p>
+</div>
+<br>
+<br>
+
+
+    <footer></footer>
+  <div class="footer-top">
+    <h2>Stay Connected to us!</h2>
+    <div class="social-icons">
+      <a href="#"><img src="{% static 'img/whatsapp.jpg' %}" alt="WhatsApp" /></a>
+      <a href="#"><img src="{% static 'img/tikto.jpg' %}" alt="TikTok" /></a>
+      <a href="#"><img src="{% static 'img/instagram.jpg'%}" alt="Instagram" /></a>
+      <a href="#"><img src="{% static 'img/facebook.jpg' %}" alt="Facebook" /></a>
+    </div>
+    <div class="inquiries">
+      <div class="shop-inquiries">
+        <h4>Shop inquiries</h4>
+        <p>shop@sishwatimarie.com</p>
+      </div>
+      <div class="general-inquiries">
+        <h4>General inquiries</h4>
+        <p>hello@sishwatimarie.com</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-divider"></div>
+
+  <div class="footer-bottom">
+    <div class="footer-links">
+      <ul>
+        <li><a href="{% url 'about' %}">About Sishwati Marie <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Privacy Policy <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Refund Policy <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Shipping Policy <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Terms of Service <span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Contact Us <span class="arrow-icon">↗</span></a></li>
+      </ul>
+      <ul>
+        <li><a href="#">New Arrivals<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Tote Bags<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">Hand Bags<span class="arrow-icon">↗</span></a></li>
+      </ul>
+      <ul>
+        <li><a href="#">SM WhatsApp<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">SM Instagram<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">SM TikTok<span class="arrow-icon">↗</span></a></li>
+        <li><a href="#">SM Facebook<span class="arrow-icon">↗</span></a></li>
+      </ul>
+    </div>
+
+    <div class="footer-logo">
+      <img src="sm-logo.png" alt="SM Logo" />
+    </div>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const navLinks = document.getElementById('nav-links');
+
+  hamburger.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+
+   document.addEventListener('DOMContentLoaded', function () {
+    const toteItems = document.querySelectorAll('.tote-item');
+    let currentIndex = 0;
+
+    // Show the first item initially
+    toteItems[currentIndex].classList.add('active');
+
+    // Function to change slides
+    function showSlide(index) {
+      toteItems.forEach(item => item.classList.remove('active')); // Hide all items
+      toteItems[index].classList.add('active'); // Show the current item
+    }
+
+    // Auto slide every 3 seconds
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % toteItems.length; // Increment index
+      showSlide(currentIndex); // Show next slide
+    }, 3000); // Change slide every 3 seconds
+  });
+</script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ product.name }}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      /* Add to Cart button styling */
+      .add-to-cart-btn {
+        background-color: #000;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        max-width: 200px; /* Adjust based on your layout */
+        font-size: 16px;
+        text-align: center;
+      }
+
+      /* Styling the select (Color) and input (Quantity) */
+      select,
+      input[type="number"] {
+        width: 100%;
+        max-width: 200px; /* Match with the Add to Cart button width */
+        padding: 10px; /* Ensure padding matches button */
+        margin-bottom: 10px; /* Space between elements */
+        font-size: 16px; /* Match font size with Add to Cart */
+        border: 1px solid #ccc; /* Match border style */
+        border-radius: 5px; /* Optional, adds a slight curve to match button */
+        box-sizing: border-box; /* Ensures padding doesn't affect total width */
+      }
+    </style>
+    <script>
+                    function changeImage(color) {
+                      const newImage = document.querySelector(`input[data-color="${color}"]`).value;
+                      document.getElementById("product-image").src = newImage;
+                    }
+
+                    // Update total price when quantity is changed
+                    function updateTotalPrice() {
+                      const pricePerUnit = {{ product.price }};
+                      const quantity = document.getElementById('quantity').value;
+                      const totalPrice = pricePerUnit * quantity;
+                      document.getElementById('total-price').textContent = '$' + totalPrice.toFixed(2);
+                    }
+
+                    function addToCart(event) {
+            event.preventDefault();
+            const form = event.target;
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action, true);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+            const formData = new FormData(form);
+
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4 && xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                // Update the cart count on the store page
+                document.getElementById('cart-count').textContent = response.cart_count;
+
+                // Redirect to the store page after successful addition
+                window.location.href = "{% url 'store' %}";
+              }
+            };
+
+            xhr.send(formData);
+          }
+
+          document.addEventListener('DOMContentLoaded', function () {
+            const addToCartForms = document.querySelectorAll('.add-to-cart-form');
+            addToCartForms.forEach(function(form) {
+              form.addEventListener('submit', addToCart);
+            });
+          });
+
+           document.addEventListener('DOMContentLoaded', function () {
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+
+        // Toggle the 'active' class on the nav links when hamburger is clicked
+        hamburger.addEventListener('click', function () {
+          navLinks.classList.toggle('active');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <!-- Hamburger icon for mobile -->
+      <div class="hamburger" id="hamburger">
+        &#9776;
+        <!-- Unicode for the hamburger icon -->
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="#">New Arrivals</a></li>
+        <li class="logo">
+          <a href="{% url 'home' %}"
+            ><img src="{% static 'img/logo.png' %}" alt="Logo"
+          /></a>
+        </li>
+        <li><a href="#">Totes</a></li>
+        <li><a href="#">Handbags</a></li>
+        <li class="cart-icon">
+          {% if not is_cart_page %}
+          <a href="{% url 'cart' %}" class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-count" id="cart-count"
+              >{{ request.session.cart|length|default:0 }}</span
+            >
+          </a>
+          {% endif %}
+        </li>
+      </ul>
+    </nav>
+    <h1 class="page-title">Sishwati Marie Shop</h1>
+    <!-- Cart Count Display -->
+
+    <!-- Cart Icon -->
+    <!-- Cart Icon with Cart Count Inside -->
+
+    <section class="product-detail">
+      <div class="product-image">
+        <img
+          id="product-image"
+          src="{{ product.image.url }}"
+          alt="{{ product.name }}"
+        />
+        <p><em>*all products are currently made to order*</em></p>
+      </div>
+
+      <div class="product-info">
+        <h1>{{ product.name }}</h1>
+        <div class="underline"></div>
+        <p>{{ product.description }}</p>
+        <p><strong>Price per unit:</strong> ${{ product.price }}</p>
+
+        <!-- Display Total Price -->
+        <p>
+          <strong>Total Price:</strong>
+          <span id="total-price">${{ product.price }}</span>
+        </p>
+
+        <form
+          action="{% url 'add_to_cart' product.id %}"
+          method="POST"
+          class="add-to-cart-form"
+        >
+          {% csrf_token %}
+
+          <!-- Color Selection -->
+          <label for="color">Color:</label>
+          <select name="color" id="color" onchange="changeImage(this.value)">
+            {% for color_option in product.available_colors %}
+            <option value="{{ color_option }}">{{ color_option }}</option>
+            {% endfor %}
+          </select>
+
+          <!-- Hidden inputs for images corresponding to colors -->
+          {% for image in product_images %}
+          <input
+            type="hidden"
+            data-color="{{ image.color }}"
+            value="{{ image.image.url }}"
+          />
+          {% endfor %}
+
+          <!-- Quantity Selection -->
+          <label for="quantity">Quantity:</label>
+          <input
+            type="number"
+            id="quantity"
+            name="quantity"
+            value="1"
+            min="1"
+            onchange="updateTotalPrice()"
+          />
+
+          <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+        </form>
+      </div>
+    </section>
+  </body>
+</html>
